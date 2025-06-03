@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LikoDIOS Music - ARCHIP ROMEO</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      background: url('https://files.catbox.moe/p70uwy.jpg') no-repeat center center/cover;
+      overflow: hidden;
+      position: relative;
+      color: white;
+    }
+    .water-overlay {
+      position: absolute;
+      bottom: 0;
+      height: 50%;
+      width: 100%;
+      background: rgba(0, 51, 102, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 1;
+      border-top: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    .ripple {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: rippleAnimation 8s linear infinite;
+      z-index: 2;
+    }
+    @keyframes rippleAnimation {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 40px; }
+    }
+    .bubbles {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 50%;
+      overflow: hidden;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .bubbles span {
+      position: absolute;
+      bottom: -100px;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      animation: bubble-rise 10s infinite ease-in;
+      left: calc(10% + 80% * var(--i));
+      animation-delay: calc(1s * var(--i));
+    }
+    .bubbles span:nth-child(1) { --i: 0; }
+    .bubbles span:nth-child(2) { --i: 0.1; }
+    .bubbles span:nth-child(3) { --i: 0.2; }
+    .bubbles span:nth-child(4) { --i: 0.3; }
+    .bubbles span:nth-child(5) { --i: 0.4; }
+    .bubbles span:nth-child(6) { --i: 0.5; }
+    .bubbles span:nth-child(7) { --i: 0.6; }
+    .bubbles span:nth-child(8) { --i: 0.7; }
+    .bubbles span:nth-child(9) { --i: 0.8; }
+    .bubbles span:nth-child(10) { --i: 0.9; }
+
+    @keyframes bubble-rise {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.6;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-1000%) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .sidebar {
+      position: absolute;
+      left: 5%;
+      bottom: 10%;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      width: 300px;
+      border: 4px solid;
+      border-image: linear-gradient(45deg, #ff0080, #00ffff, #ff8c00, #ff0080) 1;
+      animation: disco-border 5s linear infinite;
+      border-radius: 18px;
+      z-index: 4;
+    }
+
+    @keyframes disco-border {
+      0% {
+        border-image-source: linear-gradient(45deg, #ff0080, #00ffff, #ff8c00, #ff0080);
+      }
+      25% {
+        border-image-source: linear-gradient(135deg, #00ffff, #ff8c00, #ff0080, #00ffff);
+      }
+      50% {
+        border-image-source: linear-gradient(225deg, #ff8c00, #ff0080, #00ffff, #ff8c00);
+      }
+      75% {
+        border-image-source: linear-gradient(315deg, #ff0080, #00ffff, #ff8c00, #ff0080);
+      }
+      100% {
+        border-image-source: linear-gradient(45deg, #ff0080, #00ffff, #ff8c00, #ff0080);
+      }
+    }
+
+    .sidebar::before {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      border-radius: 22px;
+      background: linear-gradient(45deg, #ff3366, #33ffff);
+      filter: blur(20px);
+      opacity: 0.6;
+      z-index: -1;
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    audio {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      margin-top: 10px;
+      background: #00ffff;
+      padding: 10px 15px;
+      color: black;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .download-btn:hover {
+      background: #ff0080;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Water effect -->
+  <div class="water-overlay"></div>
+  <div class="ripple"></div>
+  <div class="bubbles">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- Sidebar music player -->
+  <div class="sidebar">
+    <h1 id="song-title">🎵 NALELI OK</h1>
+    <audio id="audio-player" controls autoplay>
+      <source id="audio-source" src="https://files.catbox.moe/bhnko2.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <a id="download-link" href="https://files.catbox.moe/bhnko2.mp3" download class="download-btn">⬇️ Download Song</a>
+  </div>
+
+  <!-- Playlist JavaScript -->
+  <script>
+    const playlist = [
+      { title: "NALELI OK", url: "https://files.catbox.moe/bhnko2.mp3" },
+      { title: "HOZANNA", url: "https://files.catbox.moe/ys3iiy.mp3" },
+      { title: "JUJU", url: "https://files.catbox.moe/f5mqkm.mpeg" },
+      { title: "TENSION SAVA", url: "https://files.catbox.moe/k6568g.mp3" },
+      { title: "EX BY ARCHIP", url: "https://files.catbox.moe/737ilv.mp3" },
+      { title: "UNA NI WEKA JUU", url: "https://files.catbox.moe/b6azvf.mp3" },
+      { title: "DOUX", url: "https://files.catbox.moe/nfo0t6.mp3" },
+      { title: "TETE", url: "https://files.catbox.moe/p0362e.mp3" },
+      { title: "MA VIE", url: "https://files.catbox.moe/fpyppv.mp3" },
+      { title: "BIZU", url: "https://files.catbox.moe/qitn47.mp3" },
+      { title: "SEMA", url: "https://files.catbox.moe/eivr1f.mp3" },
+      { title: "SHASHA", url: "https://files.catbox.moe/2kanlp.mp3" },
+      { title: "WAKATI", url: "https://files.catbox.moe/xnum78.mp3" },
+      { title: "SUBIRI", url: "https://files.catbox.moe/fgeyby.mpeg" },
+      { title: "MBELE", url: "https://files.catbox.moe/xcuhbb.mpeg" },
+      { title: "HAPPY", url: "https://files.catbox.moe/af5kx3.mpeg" },
+      { title: "SEMA", url: "https://files.catbox.moe/8riqqu.mpeg" }
+    ];
+
+    let currentTrack = 0;
+    const audio = document.getElementById('audio-player');
+    const audioSource = document.getElementById('audio-source');
+    const title = document.getElementById('song-title');
+    const download = document.getElementById('download-link');
+
+    function loadTrack(index) {
+      if (index >= playlist.length) index = 0;
+      audioSource.src = playlist[index].url;
+      title.textContent = `🎵 ${playlist[index].title}`;
+      download.href = playlist[index].url;
+      download.setAttribute('download', playlist[index].title);
+      audio.load();
+      audio.play();
+    }
+
+    audio.addEventListener('ended', () => {
+      currentTrack++;
+      if (currentTrack >= playlist.length) currentTrack = 0;
+      loadTrack(currentTrack);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadTrack(currentTrack);
+    });
+  </script>
+</body>
+  </html>
