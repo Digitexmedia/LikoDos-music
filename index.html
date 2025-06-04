@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>LikoDIOS Music - ARCHIP ROMEO</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', sans-serif;
       height: 100vh;
@@ -20,85 +15,29 @@
       color: white;
     }
 
-    .water-overlay {
-      position: absolute;
-      bottom: 0;
-      height: 50%;
-      width: 100%;
-      background: rgba(0, 51, 102, 0.4);
-      backdrop-filter: blur(4px);
-      z-index: 1;
-      border-top: 2px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .ripple {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 50%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
-      background-size: 40px 40px;
-      animation: rippleAnimation 8s linear infinite;
-      z-index: 2;
-    }
+    .water-overlay, .ripple, .bubbles { position: absolute; bottom: 0; width: 100%; height: 50%; }
+    .water-overlay { background: rgba(0, 51, 102, 0.4); backdrop-filter: blur(4px); z-index: 1; border-top: 2px solid rgba(255,255,255,0.3); }
+    .ripple { background: radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px); background-size: 40px 40px; animation: rippleAnimation 8s linear infinite; z-index: 2; }
+    .bubbles { overflow: hidden; z-index: 3; pointer-events: none; }
+    .bubbles span { position: absolute; bottom: -100px; width: 20px; height: 20px; background: rgba(255,255,255,0.3); border-radius: 50%; animation: bubble-rise 10s infinite ease-in; }
+    .bubbles span:nth-child(n) { --i: calc((n - 1) / 10); left: calc(10% + 80% * var(--i)); animation-delay: calc(1s * var(--i)); }
 
     @keyframes rippleAnimation {
       0% { background-position: 0 0; }
       100% { background-position: 40px 40px; }
     }
 
-    .bubbles {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 50%;
-      overflow: hidden;
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    .bubbles span {
-      position: absolute;
-      bottom: -100px;
-      width: 20px;
-      height: 20px;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      animation: bubble-rise 10s infinite ease-in;
-      left: calc(10% + 80% * var(--i));
-      animation-delay: calc(1s * var(--i));
-    }
-
-    .bubbles span:nth-child(1) { --i: 0; }
-    .bubbles span:nth-child(2) { --i: 0.1; }
-    .bubbles span:nth-child(3) { --i: 0.2; }
-    .bubbles span:nth-child(4) { --i: 0.3; }
-    .bubbles span:nth-child(5) { --i: 0.4; }
-    .bubbles span:nth-child(6) { --i: 0.5; }
-    .bubbles span:nth-child(7) { --i: 0.6; }
-    .bubbles span:nth-child(8) { --i: 0.7; }
-    .bubbles span:nth-child(9) { --i: 0.8; }
-    .bubbles span:nth-child(10) { --i: 0.9; }
-
     @keyframes bubble-rise {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 0.6;
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-1000%) scale(1.5);
-        opacity: 0;
-      }
+      0% { transform: translateY(0) scale(1); opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-1000%) scale(1.5); opacity: 0; }
     }
 
     .sidebar {
       position: absolute;
       left: 5%;
-      bottom: 10%;
-      background: rgba(0, 0, 0, 0.6);
+      top: 10%;
+      background: rgba(0,0,0,0.6);
       padding: 20px;
       width: 300px;
       border: 4px solid;
@@ -106,77 +45,145 @@
       animation: disco-border 5s linear infinite;
       border-radius: 18px;
       z-index: 4;
+      overflow-y: auto;
+      max-height: 80vh;
     }
 
     @keyframes disco-border {
-      0% {
-        border-image-source: linear-gradient(45deg, #ff0080, #00ffff, #ff8c00, #ff0080);
-      }
-      25% {
-        border-image-source: linear-gradient(135deg, #00ffff, #ff8c00, #ff0080, #00ffff);
-      }
-      50% {
-        border-image-source: linear-gradient(225deg, #ff8c00, #ff0080, #00ffff, #ff8c00);
-      }
-      75% {
-        border-image-source: linear-gradient(315deg, #ff0080, #00ffff, #ff8c00, #ff0080);
-      }
-      100% {
-        border-image-source: linear-gradient(45deg, #ff0080, #00ffff, #ff8c00, #ff0080);
-      }
+      0%, 100% { border-image-source: linear-gradient(45deg, #ff0080, #00ffff, #ff8c00, #ff0080); }
+      25% { border-image-source: linear-gradient(135deg, #00ffff, #ff8c00, #ff0080, #00ffff); }
+      50% { border-image-source: linear-gradient(225deg, #ff8c00, #ff0080, #00ffff, #ff8c00); }
+      75% { border-image-source: linear-gradient(315deg, #ff0080, #00ffff, #ff8c00, #ff0080); }
     }
 
-    .sidebar::before {
-      content: "";
-      position: absolute;
-      top: -4px;
-      left: -4px;
-      right: -4px;
-      bottom: -4px;
-      border-radius: 22px;
-      background: linear-gradient(45deg, #ff3366, #33ffff);
-      filter: blur(20px);
-      opacity: 0.6;
-      z-index: -1;
-      animation: glow 3s ease-in-out infinite;
-    }
-
-    @keyframes glow {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; }
-    }
-
-    h1 {
-      font-size: 24px;
+    h1#song-title {
+      font-size: 20px;
       margin-bottom: 10px;
+      text-shadow: 0 0 10px #00ffff, 0 0 20px #ff0080;
+      animation: glowTitle 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowTitle {
+      0% { text-shadow: 0 0 10px #00ffff, 0 0 20px #ff0080; color: #ffffff; }
+      100% { text-shadow: 0 0 20px #ff0080, 0 0 40px #00ffff; color: #ffccff; }
+    }
+
+    .control-btn {
+      display: inline-block;
+      margin: 5px 5px 10px 0;
+      padding: 8px 12px;
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: linear-gradient(45deg, #00ffff, #ff0080);
+      border: 2px solid transparent;
+      transition: background 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 8px rgba(0, 255, 255, 0.3);
+    }
+
+    .control-btn:hover {
+      background: linear-gradient(45deg, #ff8c00, #00ffff);
+      color: #000;
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(255, 0, 128, 0.4);
     }
 
     audio {
       width: 100%;
+      margin: 10px 0;
+      border-radius: 12px;
+      outline: none;
+      border: 2px solid transparent;
+      box-shadow: 0 0 10px #00ffff, 0 0 20px #ff0080;
+      background: rgba(255, 255, 255, 0.1);
+      transition: box-shadow 0.3s ease-in-out;
+    }
+
+    audio:hover {
+      box-shadow: 0 0 20px #ff0080, 0 0 40px #00ffff;
+    }
+
+    .wiggle {
+      animation: wiggle 0.3s ease;
+    }
+
+    @keyframes wiggle {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(1deg); }
+      50% { transform: rotate(-1.5deg); }
+      75% { transform: rotate(1deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    #search {
+      width: 100%;
+      padding: 6px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+    }
+
+    ul#playlist {
+      list-style: none;
+      padding: 0;
       margin-top: 10px;
     }
 
-    .download-btn {
-      display: inline-block;
-      margin-top: 10px;
-      background: #00ffff;
-      padding: 10px 15px;
-      color: black;
-      text-decoration: none;
-      border-radius: 8px;
+    ul#playlist li {
+      padding: 6px;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    ul#playlist li:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    ul#playlist li.active {
+      color: #00ffff;
       font-weight: bold;
-      transition: background 0.3s;
     }
 
-    .download-btn:hover {
-      background: #ff0080;
-      color: white;
+    /* Corner image styles */
+    .corner-img {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      opacity: 0.8;
+      z-index: 6;
+      pointer-events: none;
+      border-radius: 50%;
+      object-fit: cover;
+      animation: rotate-glow 6s linear infinite;
+      filter: drop-shadow(0 0 10px #00ffff) drop-shadow(0 0 20px #ff00ff);
+    }
+
+    .top-left { top: 10px; left: 10px; }
+    .top-right { top: 10px; right: 10px; }
+    .bottom-left { bottom: 10px; left: 10px; }
+    .bottom-right { bottom: 10px; right: 10px; }
+
+    @keyframes rotate-glow {
+      0% {
+        transform: rotate(0deg) scale(1);
+        filter: drop-shadow(0 0 5px #ff00ff) drop-shadow(0 0 10px #00ffff);
+      }
+      50% {
+        transform: rotate(180deg) scale(1.1);
+        filter: drop-shadow(0 0 20px #00ffff) drop-shadow(0 0 40px #ff00ff);
+      }
+      100% {
+        transform: rotate(360deg) scale(1);
+        filter: drop-shadow(0 0 5px #00ffff) drop-shadow(0 0 10px #ff00ff);
+      }
     }
   </style>
 </head>
 <body>
-
-  <!-- Water effect -->
+  <!-- Water FX -->
   <div class="water-overlay"></div>
   <div class="ripple"></div>
   <div class="bubbles">
@@ -184,17 +191,28 @@
     <span></span><span></span><span></span><span></span><span></span>
   </div>
 
-  <!-- Sidebar music player -->
+  <!-- Corner Glowing Rotating Images -->
+  <img src="https://files.catbox.moe/9hhbs8.jpg" class="corner-img top-left" />
+  <img src="https://files.catbox.moe/9hhbs8.jpg" class="corner-img top-right" />
+  <img src="https://files.catbox.moe/9hhbs8.jpg" class="corner-img bottom-left" />
+  <img src="https://files.catbox.moe/9hhbs8.jpg" class="corner-img bottom-right" />
+
+  <!-- Player Sidebar -->
   <div class="sidebar">
     <h1 id="song-title">🎵 NALELI OK</h1>
     <audio id="audio-player" controls autoplay>
-      <source id="audio-source" src="https://files.catbox.moe/bhnko2.mp3" type="audio/mpeg">
+      <source id="audio-source" src="" type="audio/mpeg" />
       Your browser does not support the audio element.
     </audio>
-    <a id="download-link" href="https://files.catbox.moe/bhnko2.mp3" download class="download-btn">⬇️ Download Song</a>
+    <button class="control-btn" id="shuffle-btn">🔀 Shuffle: Off</button>
+    <button class="control-btn" id="repeat-btn">🔁 Repeat: Off</button>
+    <button class="control-btn" id="next-btn">⏭️ Next</button>
+    <a id="download-link" href="" download class="control-btn">⬇️ Download</a>
+
+    <input type="text" id="search" placeholder="Search songs...">
+    <ul id="playlist"></ul>
   </div>
 
-  <!-- Playlist JavaScript -->
   <script>
     const playlist = [
       { title: "NALELI OK", url: "https://files.catbox.moe/bhnko2.mp3" },
@@ -216,32 +234,126 @@
       { title: "SEMA", url: "https://files.catbox.moe/8riqqu.mpeg" }
     ];
 
-    let currentTrack = 0;
     const audio = document.getElementById('audio-player');
     const audioSource = document.getElementById('audio-source');
     const title = document.getElementById('song-title');
     const download = document.getElementById('download-link');
+    const playlistEl = document.getElementById('playlist');
+    const searchInput = document.getElementById('search');
+    const shuffleBtn = document.getElementById('shuffle-btn');
+    const repeatBtn = document.getElementById('repeat-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    let currentTrack = 0;
+    let isShuffle = false;
+    let repeatMode = 'off';
 
     function loadTrack(index) {
-      if (index >= playlist.length) index = 0;
-      audioSource.src = playlist[index].url;
-      title.textContent = `🎵 ${playlist[index].title}`;
-      download.href = playlist[index].url;
-      download.setAttribute('download', playlist[index].title);
+      currentTrack = index;
+      const song = playlist[index];
+      audioSource.src = song.url;
+      title.textContent = `🎵 ${song.title}`;
+      download.href = song.url;
+      download.setAttribute('download', song.title);
       audio.load();
       audio.play();
+      updateActiveListItem();
+      title.classList.remove('wiggle');
+      void title.offsetWidth;
+      title.classList.add('wiggle');
     }
 
+    function updateActiveListItem() {
+      const items = playlistEl.querySelectorAll('li');
+      items.forEach((item, i) => {
+        item.classList.toggle('active', i === currentTrack);
+      });
+    }
+
+    function renderPlaylist(filter = "") {
+      playlistEl.innerHTML = "";
+      playlist.forEach((song, i) => {
+        if (song.title.toLowerCase().includes(filter.toLowerCase())) {
+          const li = document.createElement('li');
+          li.textContent = song.title;
+          li.addEventListener('click', () => loadTrack(i));
+          if (i === currentTrack) li.classList.add('active');
+          playlistEl.appendChild(li);
+        }
+      });
+    }
+
+    function playNext() {
+      if (isShuffle) {
+        let nextIndex;
+        do {
+          nextIndex = Math.floor(Math.random() * playlist.length);
+        } while (nextIndex === currentTrack);
+        loadTrack(nextIndex);
+      } else {
+        currentTrack = (currentTrack + 1) % playlist.length;
+        loadTrack(currentTrack);
+      }
+    }
+
+    function updateButtonStyles(button, isActive) {
+      if (isActive) {
+        button.style.background = 'linear-gradient(45deg, #00ff99, #6600ff)';
+        button.style.color = '#fff';
+      } else {
+        button.style.background = 'linear-gradient(45deg, #00ffff, #ff0080)';
+        button.style.color = '#fff';
+      }
+    }
+
+    searchInput.addEventListener('input', () => renderPlaylist(searchInput.value));
+    shuffleBtn.addEventListener('click', () => {
+      isShuffle = !isShuffle;
+      shuffleBtn.textContent = `🔀 Shuffle: ${isShuffle ? "On" : "Off"}`;
+      updateButtonStyles(shuffleBtn, isShuffle);
+    });
+
+    repeatBtn.addEventListener('click', () => {
+      if (repeatMode === 'off') {
+        repeatMode = 'one';
+        repeatBtn.textContent = '🔂 Repeat: One';
+        audio.loop = true;
+        updateButtonStyles(repeatBtn, true);
+      } else if (repeatMode === 'one') {
+        repeatMode = 'all';
+        repeatBtn.textContent = '🔁 Repeat: All';
+        audio.loop = false;
+        updateButtonStyles(repeatBtn, true);
+      } else {
+        repeatMode = 'off';
+        repeatBtn.textContent = '🔁 Repeat: Off';
+        audio.loop = false;
+        updateButtonStyles(repeatBtn, false);
+      }
+    });
+
+    nextBtn.addEventListener('click', playNext);
+
     audio.addEventListener('ended', () => {
-      currentTrack++;
-      if (currentTrack >= playlist.length) currentTrack = 0;
-      loadTrack(currentTrack);
+      if (repeatMode === 'all') playNext();
+    });
+
+    audio.addEventListener('play', () => {
+      document.querySelectorAll('.corner-img').forEach(img => {
+        img.style.animationDuration = '3s';
+      });
+    });
+
+    audio.addEventListener('pause', () => {
+      document.querySelectorAll('.corner-img').forEach(img => {
+        img.style.animationDuration = '6s';
+      });
     });
 
     window.addEventListener('DOMContentLoaded', () => {
+      renderPlaylist();
       loadTrack(currentTrack);
     });
   </script>
-
 </body>
-  </html>
+</html>
