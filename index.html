@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +16,26 @@
       color: white;
     }
 
+    /* Splash Screen */
+    #splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+    #splash-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Existing styles preserved below */
     .water-overlay, .ripple, .bubbles { position: absolute; bottom: 0; width: 100%; height: 50%; }
     .water-overlay { background: rgba(0, 51, 102, 0.4); backdrop-filter: blur(4px); z-index: 1; border-top: 2px solid rgba(255,255,255,0.3); }
     .ripple { background: radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px); background-size: 40px 40px; animation: rippleAnimation 8s linear infinite; z-index: 2; }
@@ -147,7 +168,6 @@
       font-weight: bold;
     }
 
-    /* Corner image styles */
     .corner-img {
       position: absolute;
       width: 60px;
@@ -183,6 +203,12 @@
   </style>
 </head>
 <body>
+
+  <!-- Splash Screen -->
+  <div id="splash-screen">
+    <img src="https://files.catbox.moe/2by63w.jpeg" style="max-width:100%; max-height:100%;" alt="Splash Image" />
+  </div>
+
   <!-- Water FX -->
   <div class="water-overlay"></div>
   <div class="ripple"></div>
@@ -191,13 +217,13 @@
     <span></span><span></span><span></span><span></span><span></span>
   </div>
 
-  <!-- Corner Glowing Rotating Images -->
+  <!-- Corner Images -->
   <img src="https://files.catbox.moe/9hhbs8.jpg" class="corner-img top-left" />
   <img src="https://files.catbox.moe/9hhbs8.jpg" class="corner-img top-right" />
   <img src="https://files.catbox.moe/9hhbs8.jpg" class="corner-img bottom-left" />
   <img src="https://files.catbox.moe/9hhbs8.jpg" class="corner-img bottom-right" />
 
-  <!-- Player Sidebar -->
+  <!-- Sidebar -->
   <div class="sidebar">
     <h1 id="song-title">🎵 NALELI OK</h1>
     <audio id="audio-player" controls autoplay>
@@ -209,30 +235,69 @@
     <button class="control-btn" id="next-btn">⏭️ Next</button>
     <a id="download-link" href="" download class="control-btn">⬇️ Download</a>
 
-    <input type="text" id="search" placeholder="Search songs...">
+    <input type="text" id="search" placeholder="Search songs..." />
     <ul id="playlist"></ul>
+
+    <!-- Support Artist Link -->
+    <a href="https://pay.lygosapp.com/$licodios" class="control-btn" target="_blank">💖 Support Artist</a>
   </div>
 
   <script>
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        if (splash) {
+          splash.classList.add('fade-out');
+          setTimeout(() => splash.remove(), 600);
+        }
+      }, 2000);
+    });
+
     const playlist = [
-      { title: "NALELI OK", url: "https://files.catbox.moe/bhnko2.mp3" },
-      { title: "HOZANNA", url: "https://files.catbox.moe/ys3iiy.mp3" },
-      { title: "JUJU", url: "https://files.catbox.moe/f5mqkm.mpeg" },
-      { title: "TENSION SAVA", url: "https://files.catbox.moe/k6568g.mp3" },
-      { title: "EX BY ARCHIP", url: "https://files.catbox.moe/737ilv.mp3" },
-      { title: "UNA NI WEKA JUU", url: "https://files.catbox.moe/b6azvf.mp3" },
-      { title: "DOUX", url: "https://files.catbox.moe/nfo0t6.mp3" },
-      { title: "TETE", url: "https://files.catbox.moe/p0362e.mp3" },
-      { title: "MA VIE", url: "https://files.catbox.moe/fpyppv.mp3" },
-      { title: "BIZU", url: "https://files.catbox.moe/qitn47.mp3" },
-      { title: "SEMA", url: "https://files.catbox.moe/eivr1f.mp3" },
-      { title: "SHASHA", url: "https://files.catbox.moe/2kanlp.mp3" },
-      { title: "WAKATI", url: "https://files.catbox.moe/xnum78.mp3" },
-      { title: "SUBIRI", url: "https://files.catbox.moe/fgeyby.mpeg" },
-      { title: "MBELE", url: "https://files.catbox.moe/xcuhbb.mpeg" },
-      { title: "HAPPY", url: "https://files.catbox.moe/af5kx3.mpeg" },
-      { title: "SEMA", url: "https://files.catbox.moe/8riqqu.mpeg" }
-    ];
+  { title: "Shasha", url: "https://files.catbox.moe/2kanlp.mp3" },
+  { title: "Wakati", url: "https://files.catbox.moe/xnum78.mp3" },
+  { title: "Subiri", url: "https://files.catbox.moe/fgeyby.mpeg" },
+  { title: "Mbele", url: "https://files.catbox.moe/xcuhbb.mpeg" },
+  { title: "Happy today", url: "https://files.catbox.moe/af5kx3.mpeg" },
+  { title: "Na see", url: "https://files.catbox.moe/lq0bjs.mpeg" },
+  { title: "Subiri", url: "https://files.catbox.moe/xcuhbb.mpeg" },
+  { title: "HB the legend", url: "https://files.catbox.moe/c1tjj2.mpeg" },
+  { title: "Famille Muna ni Toka", url: "https://files.catbox.moe/eh0ux9.mpeg" },
+  { title: "Cha nifurahi", url: "https://files.catbox.moe/ufxhs8.mpeg" },
+  { title: "Domo", url: "https://files.catbox.moe/06xccy.mpeg" },
+  { title: "Sorry", url: "https://files.catbox.moe/9dw10k.mpeg" },
+  { title: "Nani Iko nyuma yako", url: "https://files.catbox.moe/qk9tp6.mpeg" },
+  { title: "Bila kosa", url: "https://files.catbox.moe/c77d5c.mpeg" },
+  { title: "Unanijenga", url: "https://files.catbox.moe/xzg7fl.x-wav" },
+  { title: "Nipe mate", url: "https://files.catbox.moe/u1bovf.mpeg" },
+  { title: "Bila", url: "https://files.catbox.moe/ikuwfv.mpeg" },
+  { title: "Imperial", url: "https://files.catbox.moe/sy7zxq.mpeg" },
+  { title: "RTGL", url: "https://files.catbox.moe/n4c0aw.mpeg" },
+  { title: "Hawata weza", url: "https://files.catbox.moe/oa7vd2.mpeg" },
+  { title: "Papa God", url: "https://files.catbox.moe/ec46j6.mpeg" },
+  { title: "Roddy", url: "https://files.catbox.moe/vmw9ow.mpeg" },
+  { title: "Deka", url: "https://files.catbox.moe/gtbsnz.mpeg" },
+  { title: "Joel wangu", url: "https://files.catbox.moe/klhoej.mpeg" },
+  { title: "Kama niku to", url: "https://files.catbox.moe/m5kwdm.mpeg" },
+  { title: "Badilika", url: "https://files.catbox.moe/rrt3id.mpeg" },
+  { title: "Rudi nyumbani", url: "https://files.catbox.moe/ynk1q4.mpeg" },
+  { title: "Bomoka", url: "https://files.catbox.moe/wrwjym.mpeg" },
+  { title: "Maladi du ciecle", url: "https://files.catbox.moe/1742hb.mpeg" },
+  { title: "Elengi elengi", url: "https://files.catbox.moe/ys3iiy.mp3" },
+  { title: "Pole pole", url: "https://files.catbox.moe/bhnko2.mp3" },
+  { title: "Naleli", url: "https://files.catbox.moe/f5mqkm.mpeg" },
+  { title: "Hozanna", url: "https://files.catbox.moe/k6568g.mp3" },
+  { title: "Juju", url: "https://files.catbox.moe/737ilv.mp3" },
+  { title: "Tension sava", url: "https://files.catbox.moe/b6azvf.mp3" },
+  { title: "Ex", url: "https://files.catbox.moe/nfo0t6.mp3" },
+  { title: "Unaniweka juu", url: "https://files.catbox.moe/p0362e.mp3" },
+  { title: "Doux", url: "https://files.catbox.moe/fpyppv.mp3" },
+  { title: "Tete", url: "https://files.catbox.moe/qitn47.mp3" },
+  { title: "Na vie", url: "https://files.catbox.moe/eivr1f.mp3" },
+  { title: "Bizu", url: "https://files.catbox.moe/2kanlp.mp3" },
+  { title: "Sema", url: "https://files.catbox.moe/xnum78.mp3" },
+  { title: "Shasha", url: "https://files.catbox.moe/xnum78.mp3" }
+];
 
     const audio = document.getElementById('audio-player');
     const audioSource = document.getElementById('audio-source');
@@ -243,7 +308,6 @@
     const shuffleBtn = document.getElementById('shuffle-btn');
     const repeatBtn = document.getElementById('repeat-btn');
     const nextBtn = document.getElementById('next-btn');
-
     let currentTrack = 0;
     let isShuffle = false;
     let repeatMode = 'off';
